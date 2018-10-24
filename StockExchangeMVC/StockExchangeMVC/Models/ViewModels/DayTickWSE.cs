@@ -23,7 +23,5 @@ namespace StockExchangeMVC.Models.ViewModels
 			}
 
 		}
-
-		public DayTickWSE() { }
 	}
 }
