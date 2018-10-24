@@ -1,0 +1,14 @@
+﻿@model Table
+
+<div class="row">
+    <div class="col-2">
+        @await Component.InvokeAsync("NavigationMenu")
+    </div>
+
+    <div class="col-10">
+        <div class="alert alert-info text-center" role="alert">
+            <h1>@ViewBag.Title.ToUpper()</h1>
+        </div>
+        @await Component.InvokeAsync("Table", ViewBag.Title)
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿@model List<string>
+
+<div class="list-group">
+
+    @foreach (var category in Model)
+    {
+
+        <a class="text-center list-group-item list-group-item-action
+           @(category == ViewBag.SelectedCategory ? "active" : "")"
+           asp-action="ShowIndex"
+           asp-controller="Show"
+           asp-route-name="@category">@category.ToUpper()</a>
+    }
+</div>

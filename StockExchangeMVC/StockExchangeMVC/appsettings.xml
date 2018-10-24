@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <connectionString>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kamil_000\Documents\repozytorium\StockExchange\StockExchangeMVC\StockExchangeMVC\StockDB.mdf;Integrated Security=True</connectionString>
+</root>
+

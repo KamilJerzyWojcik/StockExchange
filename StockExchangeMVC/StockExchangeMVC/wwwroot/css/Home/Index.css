@@ -1,0 +1,10 @@
+﻿form.form-search-date {
+    background-color: whitesmoke;
+    border: 1px solid black;
+    width: 25%;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}

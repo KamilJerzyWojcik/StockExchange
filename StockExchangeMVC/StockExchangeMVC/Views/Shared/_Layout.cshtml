@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html lang="pl-PL">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" asp-href-include="lib/bootstrap-4.0.0-dist/**/*.min.css" />
+    <link rel="stylesheet" href="~/css/Home/Index.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Stock Exchange App</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="ShowIndex" asp-controller="Show">Pokaż walory</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Home">Szukaj</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        @RenderBody()
+    </div>
+</body>
+</html>

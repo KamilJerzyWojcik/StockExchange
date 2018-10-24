@@ -1,0 +1,52 @@
+﻿@model Table
+
+
+@if (Model is null)
+{
+
+    <h2>Tabela</h2>
+
+}
+else
+{
+    <table class="table table-striped text-center">
+        @if (!(Model.Head is null))
+        {
+            <thead>
+                <tr>
+                    @foreach (var h in Model.Head)
+                    {
+                        <th scope="col">@h</th>
+                    }
+                </tr>
+            </thead>
+        }
+        @if (!(Model.Body is null))
+        {
+            <tbody>
+                @foreach (var b in Model.Body)
+                {
+                    <tr>
+                        <td>@b.ItemName</td>
+                        <td>@b.IndexName</td>
+                        <td>@b.Date.ToString("dd MM yyyy")</td>
+                        <td>@b.Open</td>
+                        <td>@b.High</td>
+                        <td>@b.Low</td>
+                        <td>@b.Close</td>
+                        <td>@b.Range</td>
+                    </tr>
+                }
+            </tbody>
+        }
+        @if (!(Model.Footer is null))
+        {
+            <tfooter>
+                @foreach (var b in Model.Footer)
+                {
+                    <td>@b</td>
+                }
+            </tfooter>
+        }
+    </table>
+}

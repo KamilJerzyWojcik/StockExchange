@@ -1,0 +1,11 @@
+﻿@model StockExchangeMVC.Models.ViewModels.Table
+
+
+<div class="alert alert-info" role="alert">
+    Zapisano poniższe dane
+</div>
+<div class="btn-group">
+    <a asp-action="Index" asp-controller="Home" class="btn btn-warning">Powrót do wyszukiwarki</a>
+</div>
+<hr />
+@await Component.InvokeAsync("Table", Model)
