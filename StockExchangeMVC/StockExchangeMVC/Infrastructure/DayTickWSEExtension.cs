@@ -11,6 +11,8 @@ namespace StockExchangeMVC.Infrastructure
 	public static class DayTickWSEExtension
 	{
 		private static List<DayTickWSE> _ticks;
+		private static string _link;
+		private static string _result;
 		private static WebClient _client
 		{
 			get
@@ -22,8 +24,6 @@ namespace StockExchangeMVC.Infrastructure
 				return c;
 			}
 		}
-		private static string _link;
-		private static string _result;
 
 		public static List<DayTickWSE> GetDataFromStooq(this DayTickWSE dayTickWSE, DateTime startDate, DateTime finishDate, string index = "", string name = "")
 		{
@@ -43,6 +43,11 @@ namespace StockExchangeMVC.Infrastructure
 			{
 				return null;
 			}
+		}
+
+		public static void ClearTicks(this DayTickWSE dayTickWSE)
+		{
+			_ticks = new List<DayTickWSE>();
 		}
 
 		public static void SaveDataFromStooq(this DayTickWSE dayTickWSE, IRepository repository)
@@ -105,9 +110,6 @@ namespace StockExchangeMVC.Infrastructure
 
 		}
 
-		public static void ClearTicks(this DayTickWSE dayTickWSE)
-		{
-			_ticks = new List<DayTickWSE>();
-		}
+		
 	}
 }

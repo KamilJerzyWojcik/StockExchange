@@ -10,16 +10,10 @@ namespace StockExchangeMVC.Models.ViewModels
 		public string[] Head { get; set; }
 		public List<DayTickWSE> Body { get; set; }
 		public string[] Footer { get; set; }
-		public DateTime startDate;
-		public DateTime finishDate;
-		public string index;
-		public string name;
-
-		public Table()
-		{
-			Body = new List<DayTickWSE>();
-			Head = new string[] { "Walor", "Indeks", "Data", "Otwarcie", "Najwyzszy", "Najnizszy", "Zamkniecie", "Zakres" };
-		}
+		public DateTime startDate { get; set; }
+		public DateTime finishDate { get; set; }
+		public string Index { get; set; }
+		public string Name { get; set; }
 	}
 }
 

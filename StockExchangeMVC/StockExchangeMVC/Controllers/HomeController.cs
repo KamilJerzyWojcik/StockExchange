@@ -20,45 +20,44 @@ namespace StockExchangeMVC.Controllers
 			_repository = repository;
 		}
 
-		public IActionResult Index(DateTime startDate, DateTime finishDate, string index, string name)
+		public IActionResult Index(Table table)
 		{
-			new DayTickWSE().ClearTicks();
-			Table table;
-			ViewBag.CurrentDate = DateTime.Today.ToShortDateString();
+			if (table.Name == null) table.Name = "alr";
+			if (table.Index == null)  table.Index = "Wig20";
 
-			if (finishDate == DateTime.MinValue)
+			new DayTickWSE().ClearTicks();
+			
+
+			var itemExist = WSEIndexItemSingleton.Instance().Indexes[table.Index.ToLower()];
+
+			if(itemExist.Count == 0 || !itemExist.ContainsKey(table.Name)) table.Name = null;
+
+			if ( table.finishDate == DateTime.MinValue  || table.startDate == DateTime.MinValue)
 			{
-				ViewBag.StartDate = DateTime.Today.AddYears(-1).ToShortDateString();
-				table = null;
+				table.Body = new List<DayTickWSE>();
+				table.startDate = DateTime.Today.AddYears(-1);
+				table.finishDate = DateTime.Today;
 			}
 			else
 			{
-				ViewBag.StartDate = startDate.ToShortDateString();
-				ViewBag.Name = name;
-				ViewBag.Index = index;
-				table = new Table();
-				table.Body = new DayTickWSE().GetDataFromStooq(startDate, finishDate, index, name);
+				table.Body = new DayTickWSE().GetDataFromStooq(table.startDate, table.finishDate, table.Index, table.Name);
+				table.Head = WSEIndexItemSingleton.Instance().Head;
 			}
-			
-			List<SelectListItem> listIndex = new List<SelectListItem>();
-			listIndex = listIndex.GetDataFromStooq(index);
-			List<SelectListItem> listItem = listIndex.GetSelectList(name);
 
-			ViewBag.ListItem = listItem;
-			ViewBag.ListIndex = listIndex;
+			ViewBag.ListItem = new List<SelectListItem>().GetSelectList(table.Index, table.Name);
+			ViewBag.ListIndex = new List<SelectListItem>().GetIndexList(table.Index);
 
 			return View(table);
 		}
 
-		public IActionResult AddData(DateTime startDate, DateTime finishDate, string index, string name)
+		public IActionResult AddData(Table table)
 		{
-			if (index == "" || name == "" || startDate == DateTime.MinValue || finishDate == DateTime.MinValue)
+			if (table.Index == "" || table.Name == "" || table.startDate == DateTime.MinValue || table.finishDate == DateTime.MinValue)
 				return RedirectToAction("Index", "Home");
 
 			new DayTickWSE().SaveDataFromStooq(_repository);
-			Table table = new Table();
-			table.Body = _repository.dayTickWSE.Where(d => d.Date > startDate && d.Date < finishDate && d.ItemName == name && d.IndexName == index)
-				.OrderBy(x => x.Date).ToList();
+
+			table.Body = _repository.dayTickWSE.Where(d => d.Date > table.startDate && d.Date < table.finishDate && d.ItemName == table.Name && d.IndexName == table.Index).OrderBy(x => x.Date).ToList();
 
 			return View(table);
 		}
