@@ -17,11 +17,7 @@ namespace StockExchangeMVC.Infrastructure
 		{
 			get
 			{
-				WebClient c = new WebClient();
-				c.Headers.Add("User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
-				c.Headers.Add("Content-Type", "application/json");
-				c.UseDefaultCredentials = true;
-				return c;
+				return CreateObject.GetWebClient();
 			}
 		}
 
@@ -29,7 +25,7 @@ namespace StockExchangeMVC.Infrastructure
 		{
 			//przekaznie obiektu np. query
 			_ticks = new List<DayTickWSE>();
-			_link = getLink(startDate, finishDate, name);
+			_link = ConvertData.getLink(startDate, finishDate, name);
 			try
 			{
 				using (WebClient client = _client)
@@ -39,7 +35,7 @@ namespace StockExchangeMVC.Infrastructure
 
 				return _ticks;
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				return null;
 			}
@@ -62,14 +58,6 @@ namespace StockExchangeMVC.Infrastructure
 			}
 		}
 
-		private static string getLink(DateTime startDate, DateTime finishDate, string name)
-		{
-			string start = GetDate(startDate);
-			string finish = GetDate(finishDate);
-
-			return $"https://stooq.pl/q/d/l/?s={name}&d1={start}&d2={finish}&i=d";
-		}
-
 		private static void addRange(string index, string name)
 		{
 			string[] data = _result.Split('\n');
@@ -78,38 +66,12 @@ namespace StockExchangeMVC.Infrastructure
 				string[] item = data[i].Split(',');
 				if (item.Length == 6)
 				{
-					_ticks.Add(new DayTickWSE
-					{
-						ItemName = name,
-						IndexName = index,
-						Date = DateTime.Parse(item[0]),
-						Open = decimal.Parse(item[1]),
-						High = decimal.Parse(item[2]),
-						Low = decimal.Parse(item[3]),
-						Close = decimal.Parse(item[4])
-					});
+					item = ConvertData.SetCorrectSeparator(item, new List<int> { 1, 2, 3, 4 });
+
+					_ticks.Add(ConvertData.CreateTick(item, index, name));
 				}
 			}
 		}
 
-		private static string GetDate(DateTime date)
-		{
-			string day, month;
-
-			if (date.Day > 9)
-				day = $"{date.Day.ToString()}";
-			else
-				day = $"0{date.Day.ToString()}";
-
-			if (date.Month > 9)
-				month = $"{date.Month.ToString()}";
-			else
-				month = $"0{date.Month.ToString()}";
-
-			return $"{date.Year}{month}{day}";
-
-		}
-
-		
 	}
 }

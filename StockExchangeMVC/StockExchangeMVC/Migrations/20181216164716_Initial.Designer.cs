@@ -10,14 +10,14 @@ using StockExchangeMVC.Models;
 namespace StockExchangeMVC.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20181019203733_initial")]
-    partial class initial
+    [Migration("20181216164716_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -141,13 +141,13 @@ namespace StockExchangeMVC.Migrations
 
                     b.Property<decimal>("High");
 
+                    b.Property<string>("IndexName");
+
                     b.Property<string>("ItemName");
 
                     b.Property<decimal>("Low");
 
                     b.Property<decimal>("Open");
-
-                    b.Property<decimal>("Range");
 
                     b.HasKey("ID");
 

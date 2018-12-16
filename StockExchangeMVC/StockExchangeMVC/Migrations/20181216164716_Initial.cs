@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StockExchangeMVC.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,12 +56,12 @@ namespace StockExchangeMVC.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ItemName = table.Column<string>(nullable: true),
+                    IndexName = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     Open = table.Column<decimal>(nullable: false),
                     High = table.Column<decimal>(nullable: false),
                     Low = table.Column<decimal>(nullable: false),
-                    Close = table.Column<decimal>(nullable: false),
-                    Range = table.Column<decimal>(nullable: false)
+                    Close = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
