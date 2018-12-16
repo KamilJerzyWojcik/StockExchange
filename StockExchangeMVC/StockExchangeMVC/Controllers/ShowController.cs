@@ -17,13 +17,11 @@ namespace StockExchangeMVC.Controllers
 			_repository = repository;
 		}
 
-		public IActionResult ShowIndex(string name = "alr")
+		public IActionResult ShowIndex(string name)
 		{
+			if (name == "" || name == null) name = WSEIndexItemSingleton.Instance().getFirstItemName;
 			ViewBag.Title = name;
-
-			var table = new Table();
-
-			table.Body = _repository.dayTickWSE.Where(t => t.ItemName == name).OrderBy(t => t.Date).ToList();
+			var table = new Table().GetTableByNameFromDB(name, _repository);
 
 			return View(table);
 		}

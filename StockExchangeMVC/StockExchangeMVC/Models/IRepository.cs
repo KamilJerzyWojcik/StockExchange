@@ -10,5 +10,7 @@ namespace StockExchangeMVC.Models
 	{
 		IQueryable<DayTickWSE> dayTickWSE { get; }
 		void SaveData(DayTickWSE dayTickWSE);
+		List<DayTickWSE> GetDataFromDB(Table table);
+		List<DayTickWSE> getBodyByNameFromDB(string name);
 	}
 }

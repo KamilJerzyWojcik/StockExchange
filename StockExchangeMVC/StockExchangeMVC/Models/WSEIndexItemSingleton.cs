@@ -40,6 +40,22 @@ namespace StockExchangeMVC.Models
 
 		private Dictionary<string, string> sWig80 = new Dictionary<string, string>();
 
+		public string getFirstItemName
+		{
+			get
+			{
+				return Wig20.FirstOrDefault().Key;
+			}
+		}
+
+		public string getFirstIndexName
+		{
+			get
+			{
+				return "wig20";
+			}
+		}
+
 		public string[] Head = new string[]
 		{
 			"Walor",
@@ -51,7 +67,6 @@ namespace StockExchangeMVC.Models
 			"Zamkniecie",
 			"Zakres"
 		};
-
 
 		public Dictionary<string, Dictionary<string, string>> Indexes
 		{

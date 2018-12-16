@@ -9,8 +9,10 @@ namespace StockExchangeMVC.Infrastructure
 {
 	public static class SelectListItemExtension
 	{
-		public static List<SelectListItem> GetIndexList(this List<SelectListItem> listInput, string index = "wig20")
+		public static List<SelectListItem> GetIndexList(this List<SelectListItem> listInput, string index)
 		{
+			if(index == "" || index == null) index = WSEIndexItemSingleton.Instance().getFirstIndexName;
+
 			List<SelectListItem> indexes = new List<SelectListItem>();
 
 			foreach (var item in WSEIndexItemSingleton.Instance().Indexes.Keys)
@@ -24,7 +26,7 @@ namespace StockExchangeMVC.Infrastructure
 			return indexes;
 		}
 
-		public static List<SelectListItem> GetSelectList(this List<SelectListItem> listInput, string index, string name)
+		public static List<SelectListItem> GetListItem(this List<SelectListItem> listInput, string index, string name)
 		{
 			var items = new List<SelectListItem>();
 
