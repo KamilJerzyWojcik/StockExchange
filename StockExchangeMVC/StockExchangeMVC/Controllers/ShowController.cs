@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StockExchangeMVC.Infrastructure;
 using StockExchangeMVC.Models;
 using StockExchangeMVC.Models.ViewModels;
 
@@ -17,13 +18,26 @@ namespace StockExchangeMVC.Controllers
 			_repository = repository;
 		}
 
-		public IActionResult ShowIndex(string name)
+		public async Task<IActionResult> ShowIndex(string name)
 		{
 			if (name == "" || name == null) name = WSEIndexItemSingleton.Instance().getFirstItemName;
 			ViewBag.Title = name;
-			var table = new Table().GetTableByNameFromDB(name, _repository);
+			var table = await new Table().GetTableByNameFromDB(name, _repository);
 
 			return View(table);
+		}
+
+		public IActionResult ShowMonths(string name)
+		{
+			if (name == "" || name == null) name = WSEIndexItemSingleton.Instance().getFirstItemName;
+			ViewBag.Title = name;
+
+			DateTime dateFrom = DateTime.Today.AddYears(-1);
+			DateTime dateTo = DateTime.Today;
+
+			ChangeData.getMonthRange(dateFrom, dateTo, _repository, name);
+
+			return View();
 		}
 	}
 }

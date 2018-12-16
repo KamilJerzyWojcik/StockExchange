@@ -31,9 +31,9 @@ namespace StockExchangeMVC.Models.ViewModels
 			setBody();
 		}
 
-		public Table GetTableByNameFromDB(string name, IRepository _repository)
+		public async Task<Table> GetTableByNameFromDB(string name, IRepository _repository)
 		{
-			Body = _repository.getBodyByNameFromDB(name);
+			Body = await _repository.getBodyByNameFromDB(name);
 			return this;
 		}
 

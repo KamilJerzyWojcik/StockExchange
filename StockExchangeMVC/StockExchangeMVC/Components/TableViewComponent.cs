@@ -24,8 +24,7 @@ namespace StockExchangeMVC.Components
 			{
 				string name = data;
 
-				Table table = new Table();
-				table.Body = await _repository.dayTickWSE.Where(d => d.ItemName == name).OrderBy(d => d.Date).ToListAsync();
+				Table table = await new Table().GetTableByNameFromDB(name, _repository);
 				return View(table);
 			}
 			catch (Exception)

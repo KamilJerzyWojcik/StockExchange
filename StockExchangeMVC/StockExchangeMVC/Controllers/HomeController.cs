@@ -29,13 +29,13 @@ namespace StockExchangeMVC.Controllers
 			return View(table);
 		}
 
-		public IActionResult AddData(Table table)
+		public async Task<IActionResult> AddData(Table table)
 		{
 			if(table.IsCorrectData())
 				return RedirectToAction("Index", "Home");
 
 			new DayTickWSE().SaveDataFromStooq(_repository);
-			table.Body = _repository.GetDataFromDB(table);
+			table.Body = await _repository.GetDataFromDB(table);
 
 			return View(table);
 		}
