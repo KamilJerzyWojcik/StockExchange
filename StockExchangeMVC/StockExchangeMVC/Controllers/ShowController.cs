@@ -34,10 +34,9 @@ namespace StockExchangeMVC.Controllers
 
 			DateTime dateFrom = DateTime.Today.AddYears(-1);
 			DateTime dateTo = DateTime.Today;
+			dateTo = dateTo.AddDays(1);
 
-			ChangeData.getMonthRange(dateFrom, dateTo, _repository, name);
-
-			return View();
+			return View(ChangeData.getMonthRange(dateFrom, dateTo, _repository, name).OrderByDescending(x => x.Date).ToList());
 		}
 	}
 }

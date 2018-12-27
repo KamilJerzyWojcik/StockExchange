@@ -41,8 +41,8 @@ namespace StockExchangeMVC
 				app.UseDeveloperExceptionPage();
 			}
 
-			app.UseAuthentication();
 			app.UseStaticFiles();
+			app.UseAuthentication();
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute("default", "{controller=Show}/{action=ShowIndex}");

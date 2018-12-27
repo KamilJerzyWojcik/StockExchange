@@ -1,4 +1,7 @@
-﻿<div class="row">
+﻿@model List<MonthTick>
+
+
+<div class="row">
     <div class="col-2">
         @await Component.InvokeAsync("NavigationMenu")
     </div>
@@ -11,6 +14,48 @@
             <a asp-action="ShowIndex" asp-route-name="@ViewBag.Title" class="btn btn-secondary">Dane Dzienne</a>
             <a asp-action="ShowMonths" asp-route-name="@ViewBag.Title" class="btn btn-secondary">Dane Miesięczne</a>
         </div>
-        <h1>Details</h1>
+        <hr />
+        @foreach (MonthTick month in Model)
+        {
+            <div class="row">
+                <div class="col-5">
+                    <h2 class="text-center">@month.Date.ToShortDateString() - @month.FinishDate.ToShortDateString()</h2>
+                    @await Component.InvokeAsync("Table", month.DayTicksTable)
+                </div>
+                <div class="col-2">
+                    <h2>Dane miesiąca</h2>
+
+                    <table class="table table-striped text-center table-show table-styles">
+                        <thead>
+                            <tr>
+                                <th scope="col">Data</th>
+                                <th scope="col">Zmiana</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var data in month.DailyChangeRange)
+                            {
+                                <tr>
+                                    <td>@data.Key.ToShortDateString()</td>
+                                    <td>@data.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-info text-white">Aktualizuj dane, dodać!!</a>
+                    <hr/>
+                    <ul>
+                        <li>maksimum: @month.High</li>
+                        <li>minimum: @month.Low</li>
+                        <li>otwarcie: @month.Open</li>
+                        <li>zamkniecie: @month.Close</li>
+                        <li>zmienność: @month.Range</li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+        }
     </div>
 </div>

@@ -9,37 +9,47 @@ namespace StockExchangeMVC.Infrastructure
 {
 	public static class ChangeData
 	{
-		public static void getMonthRange(DateTime dateFrom, DateTime dateTo, IRepository repository, string name)
+		public static List<MonthTick> getMonthRange(DateTime dateFrom, DateTime dateTo, IRepository repository, string name)
 		{
 			List<DayTickWSE> data = repository.dayTickWSE.Where(x => x.Date > dateFrom && x.Date < dateTo && x.ItemName == name).ToList();
 			//dodac data do cache (sesji) i obrabiac dopoki name takie samo
-			var monthYear = new List<string>();
 
-			DateTime d1 = dateFrom;
-			if (d1.Day != 1)
+			List<MonthTick> monthTicks = new List<MonthTick>();
+
+			DateTime date1 = dateFrom;
+			if (date1.Day != 1)
 			{
-				if (d1.Month == 12)
+				if (date1.Month == 12)
 				{
-					d1 = new DateTime(d1.Year + 1, 1, 1);
+					date1 = new DateTime(date1.Year + 1, 1, 1);
 				}
 				else
 				{
-					d1 = new DateTime(d1.Year + 1, d1.Month + 1, 1);
+					date1 = new DateTime(date1.Year, date1.Month + 1, 1);
 				}
 
 			}
-			DateTime d2 = d1.AddMonths(1);
+			DateTime date2 = date1.AddMonths(1);
 
-			do
+			while (true)
 			{
 
-				List<DayTickWSE> dataMonth = data.Where(x => x.Date > d1 && x.Date < d2).ToList();
+				MonthTick month = new MonthTick();
 
-				d1.AddMonths(1);
-				d2.AddMonths(1);
+				month.DayTicksTable.Body = data.Where(x => x.Date > date1 && x.Date < date2).ToList();
+				month.ItemName = name;
+				month.Date = date1;
+				month.FinishDate = date2;
 
+				monthTicks.Add(month);
+
+				if (date1.Year == dateTo.Year && date1.Month == dateTo.Month) break;
+
+				date1 = date1.AddMonths(1);
+				date2 =  date2.AddMonths(1);
 			}
-			while (d1.Year == dateTo.Year && d1.Month > dateTo.Month);
+
+			return monthTicks;
 		}
 	}
 }
