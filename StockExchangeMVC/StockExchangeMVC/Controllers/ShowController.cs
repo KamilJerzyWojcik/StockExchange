@@ -27,7 +27,7 @@ namespace StockExchangeMVC.Controllers
 			return View(table);
 		}
 
-		public IActionResult ShowMonths(string name)
+		public IActionResult ShowMonths(string name, bool json = false)
 		{
 			if (name == "" || name == null) name = WSEIndexItemSingleton.Instance().getFirstItemName;
 			ViewBag.Title = name;
@@ -35,6 +35,8 @@ namespace StockExchangeMVC.Controllers
 			DateTime dateFrom = DateTime.Today.AddYears(-1);
 			DateTime dateTo = DateTime.Today;
 			dateTo = dateTo.AddDays(1);
+
+			if (json) return Json(ChangeData.getMonthRange(dateFrom, dateTo, _repository, name.ToLower()).OrderByDescending(x => x.Date).ToList());
 
 			return View(ChangeData.getMonthRange(dateFrom, dateTo, _repository, name).OrderByDescending(x => x.Date).ToList());
 		}

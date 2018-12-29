@@ -31,6 +31,8 @@ namespace StockExchangeMVC.Infrastructure
 			}
 			DateTime date2 = date1.AddMonths(1);
 
+			int iterator = 0;
+
 			while (true)
 			{
 
@@ -40,6 +42,8 @@ namespace StockExchangeMVC.Infrastructure
 				month.ItemName = name;
 				month.Date = date1;
 				month.FinishDate = date2;
+				iterator++;
+				month.ID = iterator;
 
 				monthTicks.Add(month);
 

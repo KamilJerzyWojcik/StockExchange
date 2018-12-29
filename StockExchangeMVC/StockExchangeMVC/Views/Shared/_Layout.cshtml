@@ -7,28 +7,29 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300i,400,400i,700,700i,900,900i&amp;subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" asp-href-include="lib/bootstrap-4.0.0-dist/**/*.min.css" />
     <link rel="stylesheet" href="~/css/Home/Index.css" />
-    <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="~/lib/GoogleCharts/loader.js"></script>
+    <script src="~/lib/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/bootstrap-4.0.0-dist/js/bootstrap.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Stock Exchange App</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="ShowIndex" asp-controller="Show">Pokaż walory</a>
+            <ul class="navbar-nav mr-auto" style="font-size: 2rem;">
+                <li class="nav-item" style="margin-left: 25px;">
+                    <span class="badge badge-success"><a class="nav-link" href="#">Wyszukaj sygnały</a></span>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-action="Index" asp-controller="Home">Szukaj</a>
+                <li class="nav-item" style="margin-left: 25px;">
+                    <span class="badge badge-info"><a class="nav-link" asp-action="ShowIndex" asp-controller="Show">Pokaż walory</a></span>
+                </li>
+                <li class="nav-item" style="margin-left: 25px;">
+                    <a class="nav-link" asp-action="Index" asp-controller="Home">Szukaj danych</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color: #DFDFDF;">
         @RenderBody()
     </div>
 </body>

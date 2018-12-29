@@ -15,4 +15,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\GoogleCharts\" />
+  </ItemGroup>
+
 </Project>

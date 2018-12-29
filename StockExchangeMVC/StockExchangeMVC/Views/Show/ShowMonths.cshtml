@@ -1,61 +1,45 @@
 ﻿@model List<MonthTick>
 
 
-<div class="row">
+<div class="row" style="min-width:1900px;">
     <div class="col-2">
         @await Component.InvokeAsync("NavigationMenu")
     </div>
 
     <div class="col-10">
         <div class="alert alert-info text-center" role="alert">
-            <h1>@ViewBag.Title.ToUpper()</h1>
+            <h1 id="name-item">@ViewBag.Title.ToUpper()</h1>
         </div>
         <div class="btn-group" role="group">
             <a asp-action="ShowIndex" asp-route-name="@ViewBag.Title" class="btn btn-secondary">Dane Dzienne</a>
             <a asp-action="ShowMonths" asp-route-name="@ViewBag.Title" class="btn btn-secondary">Dane Miesięczne</a>
         </div>
         <hr />
+        <a class="btn btn-info text-white" style="margin-bottom: 25px;">Aktualizuj dane, dodać!!</a>
         @foreach (MonthTick month in Model)
         {
-            <div class="row">
-                <div class="col-5">
-                    <h2 class="text-center">@month.Date.ToShortDateString() - @month.FinishDate.ToShortDateString()</h2>
-                    @await Component.InvokeAsync("Table", month.DayTicksTable)
-                </div>
-                <div class="col-2">
-                    <h2>Dane miesiąca</h2>
+            <div class="row text-white" style="background-color:#0E6286; padding: 25px 4px; border-radius: 25px; max-width:1900px;">
+                <div class="col-12">
+                    <h2 class="text-center">@month.Date.ToShortDateString() do @month.FinishDate.ToShortDateString()</h2>
 
-                    <table class="table table-striped text-center table-show table-styles">
-                        <thead>
-                            <tr>
-                                <th scope="col">Data</th>
-                                <th scope="col">Zmiana</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var data in month.DailyChangeRange)
-                            {
-                                <tr>
-                                    <td>@data.Key.ToShortDateString()</td>
-                                    <td>@data.Value</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-2">
-                    <a class="btn btn-info text-white">Aktualizuj dane, dodać!!</a>
-                    <hr/>
-                    <ul>
-                        <li>maksimum: @month.High</li>
-                        <li>minimum: @month.Low</li>
-                        <li>otwarcie: @month.Open</li>
-                        <li>zamkniecie: @month.Close</li>
-                        <li>zmienność: @month.Range</li>
-                    </ul>
+
+                    <div style="float:left; padding:25px; background-color:#0E9183; border-radius: 15px; margin-top:55px;">
+                        <h2>Dane miesiąca</h2>
+                        <ul>
+                            <li>maksimum: @month.High</li>
+                            <li>minimum: @month.Low</li>
+                            <li>otwarcie: @month.Open</li>
+                            <li>zamkniecie: @month.Close</li>
+                            <li>zmienność: @month.Range</li>
+                        </ul>
+                    </div>
+                    <div class="candle-charts" id="@("chart_div_" + month.ID)" style="width: 500px; height: 300px; float:left; margin-bottom: 20px; margin-top:25px; margin-left:100px;"></div>
+                    <hr />
+                    <div class="candle-charts-details" id="@("chart_details_div_" + month.ID)" style="width: 1600px; height: 500px; clear: both;"></div>
                 </div>
             </div>
             <hr />
         }
     </div>
 </div>
+<script src="~/js/chart.js"></script>
