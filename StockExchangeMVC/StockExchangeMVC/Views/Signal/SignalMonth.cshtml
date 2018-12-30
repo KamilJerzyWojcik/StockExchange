@@ -1,0 +1,45 @@
+﻿@model List<SignalMonth>
+
+
+<div style="min-width:1000px; margin-left:auto; margin-right:auto;">
+
+    <div>
+        <div class="alert alert-info text-center" role="alert">
+            <h1>Sygnały na rynku</h1>
+        </div>
+        <hr />
+        <form asp-action="SignalMonth" asp-controller="Signal" method="get">
+            <div class="form-group">
+                <label>
+                    Data
+                </label>
+                <input type="date" class="form-control" name="time" value="@Model[0].StartDate.ToShortDateString()" />
+            </div>
+            <div>
+                <label>
+                    Pokaż wszystkie
+                </label>
+                <input type="checkbox" class="form-control" name="all" checked/>
+            </div>
+            <button class="btn btn-success">Get Data</button>
+        </form>
+        <hr />
+        <a class="btn btn-info text-white" style="margin-bottom: 25px;" asp-action="UpdateAllData" asp-controller="Show" asp-route-currentItem="Signal">Aktualizuj dane</a>
+
+        <h2 class="text-center">@Model[0].StartDate.ToShortDateString() do @Model[0].FinishDate.ToShortDateString()</h2>
+        <hr />
+        @foreach (SignalMonth signal in Model)
+        {
+            <div class="row text-white" style="background-color:#0E6286; padding: 25px 4px; border-radius: 25px; max-width:1000px; margin-left:auto; margin-right:auto;">
+                <div class="col-12">
+
+                    <h3 class="text-center">@signal.NameItem</h3>
+                    <hr />
+                    <div class="candle-charts-details" id="@("chart_details_div_" + signal.ID)" style="width: 900px; height: 500px; clear: both;"></div>
+                </div>
+            </div>
+            <hr />
+        }
+    </div>
+</div>
+<script src="~/js/ChartSignal.js"></script>

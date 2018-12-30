@@ -34,11 +34,54 @@ namespace StockExchangeMVC.Controllers
 
 			DateTime dateFrom = DateTime.Today.AddYears(-1);
 			DateTime dateTo = DateTime.Today;
-			dateTo = dateTo.AddDays(1);
+			
 
 			if (json) return Json(ChangeData.getMonthRange(dateFrom, dateTo, _repository, name.ToLower()).OrderByDescending(x => x.Date).ToList());
 
 			return View(ChangeData.getMonthRange(dateFrom, dateTo, _repository, name).OrderByDescending(x => x.Date).ToList());
 		}
+
+		public IActionResult UpdateAllData(string currentItem)
+		{
+			Table table = new Table();
+			WSEIndexItemSingleton WSESingleton = WSEIndexItemSingleton.Instance();
+
+
+			table.finishDate = DateTime.Today;
+			if (table.finishDate.DayOfWeek == DayOfWeek.Sunday) table.finishDate = table.finishDate.AddDays(-2);
+			if (table.finishDate.DayOfWeek == DayOfWeek.Saturday) table.finishDate = table.finishDate.AddDays(-1);
+
+
+			foreach (string index in WSESingleton.GetIndexes())
+			{
+				try
+				{
+					foreach (string item in WSESingleton.Indexes[index].Keys)
+					{
+						var existFinish = _repository.dayTickWSE.Where(x => x.Date == table.finishDate && x.ItemName == item).SingleOrDefault();
+
+						if (existFinish == null)
+						{
+							var lastTick = _repository.dayTickWSE.Where(x => x.ItemName == item).OrderByDescending(x => x.Date).First();
+
+							if (lastTick == null) table.startDate = DateTime.Today.AddYears(-1);
+							else table.startDate = lastTick.Date.AddDays(1);
+
+							table.Index = index;
+							table.Name = item;
+							table.GetTable();
+							new DayTickWSE().SaveDataFromStooq(_repository);
+						}
+					}
+				}
+				catch
+				{ }
+			}
+
+			if(currentItem == "Signal") return RedirectToAction("SignalMonth", "Signal");
+
+			return RedirectToAction("ShowMonths", "Show", new { name = currentItem });
+		}
+
 	}
 }

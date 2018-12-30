@@ -15,30 +15,30 @@
             <a asp-action="ShowMonths" asp-route-name="@ViewBag.Title" class="btn btn-secondary">Dane Miesięczne</a>
         </div>
         <hr />
-        <a class="btn btn-info text-white" style="margin-bottom: 25px;">Aktualizuj dane, dodać!!</a>
+        <a class="btn btn-info text-white" style="margin-bottom: 25px;" asp-action="UpdateAllData" asp-controller="Show" asp-route-currentItem="@ViewBag.Title">Aktualizuj dane</a>
         @foreach (MonthTick month in Model)
         {
-            <div class="row text-white" style="background-color:#0E6286; padding: 25px 4px; border-radius: 25px; max-width:1900px;">
-                <div class="col-12">
-                    <h2 class="text-center">@month.Date.ToShortDateString() do @month.FinishDate.ToShortDateString()</h2>
+                <div class="row text-white" style="background-color:#0E6286; padding: 25px 4px; border-radius: 25px; max-width:1900px;">
+                    <div class="col-12">
+                        <h2 class="text-center">@month.Date.ToShortDateString() do @month.FinishDate.ToShortDateString()</h2>
 
 
-                    <div style="float:left; padding:25px; background-color:#0E9183; border-radius: 15px; margin-top:55px;">
-                        <h2>Dane miesiąca</h2>
-                        <ul>
-                            <li>maksimum: @month.High</li>
-                            <li>minimum: @month.Low</li>
-                            <li>otwarcie: @month.Open</li>
-                            <li>zamkniecie: @month.Close</li>
-                            <li>zmienność: @month.Range</li>
-                        </ul>
+                        <div style="float:left; padding:25px; background-color:#0E9183; border-radius: 15px; margin-top:55px;">
+                            <h2>Dane miesiąca</h2>
+                            <ul>
+                                <li>maksimum: @month.High</li>
+                                <li>minimum: @month.Low</li>
+                                <li>otwarcie: @month.Open</li>
+                                <li>zamkniecie: @month.Close</li>
+                                <li>zmienność: @month.Range</li>
+                            </ul>
+                        </div>
+                        <div class="candle-charts" id="@("chart_div_" + month.ID)" style="width: 500px; height: 300px; float:left; margin-bottom: 20px; margin-top:25px; margin-left:100px;"></div>
+                        <hr />
+                        <div class="candle-charts-details" id="@("chart_details_div_" + month.ID)" style="width: 1600px; height: 500px; clear: both;"></div>
                     </div>
-                    <div class="candle-charts" id="@("chart_div_" + month.ID)" style="width: 500px; height: 300px; float:left; margin-bottom: 20px; margin-top:25px; margin-left:100px;"></div>
-                    <hr />
-                    <div class="candle-charts-details" id="@("chart_details_div_" + month.ID)" style="width: 1600px; height: 500px; clear: both;"></div>
                 </div>
-            </div>
-            <hr />
+                <hr />
         }
     </div>
 </div>

@@ -83,6 +83,11 @@ namespace StockExchangeMVC.Models
 			}
 		}
 
+		public string[] GetIndexes()
+		{
+			return new string[] { "wig20", "mwig80", "swig80"};
+		}
+
 		protected WSEIndexItemSingleton() { }
 
 		public static WSEIndexItemSingleton Instance()

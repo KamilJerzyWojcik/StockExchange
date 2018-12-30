@@ -7,7 +7,7 @@
 
         <a class="text-center list-group-item list-group-item-action category-show
            @(category == ViewBag.SelectedCategory ? "active" : "")"
-           asp-action="ShowIndex"
+           asp-action="ShowMonths"
            asp-controller="Show"
            asp-route-name="@category">@category.ToUpper()</a>
     }
