@@ -28,7 +28,11 @@ function getChartsDetails(dataChart, id) {
     google.charts.setOnLoadCallback(drawChart);
 
     var chartData = [];
-    chartData.push(["srednia", dataChart.monthTick.low, dataChart.monthTick.low, dataChart.monthTick.low + dataChart.avarageRange, dataChart.monthTick.low + dataChart.avarageRange]);
+    chartData.push(["srednia", dataChart.monthTickBefore.low, dataChart.monthTickBefore.open, dataChart.monthTickBefore.close, dataChart.monthTickBefore.high]);
+    //chartData.push(["srednia", dataChart.monthTick.low, dataChart.monthTick.low, dataChart.monthTick.low + dataChart.avarageRange, dataChart.monthTick.low + dataChart.avarageRange]);
+
+    chartData.push(["aktualny", dataChart.monthTick.low, dataChart.monthTick.open, dataChart.monthTick.close, dataChart.monthTick.high]);
+
 
     for (let i = 0; i < dataChart.dayTicksTable.length; i++) {
 

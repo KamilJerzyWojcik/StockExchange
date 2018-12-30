@@ -11,26 +11,14 @@ namespace StockExchangeMVC.Infrastructure
 	{
 		public static List<MonthTick> getMonthRange(DateTime dateFrom, DateTime dateTo, IRepository repository, string name)
 		{
-			dateTo = dateTo.AddDays(1);
-			List<DayTickWSE> data = repository.dayTickWSE.Where(x => x.Date > dateFrom && x.Date < dateTo && x.ItemName == name).ToList();
+			List<DayTickWSE> data = repository.dayTickWSE.Where(x => x.Date >= dateFrom && x.Date <= dateTo.AddMonths(1) && x.ItemName == name).ToList();
 			//dodac data do cache (sesji) i obrabiac dopoki name takie samo
 
 			List<MonthTick> monthTicks = new List<MonthTick>();
 
-			DateTime date1 = dateFrom;
-			if (date1.Day != 1)
-			{
-				if (date1.Month == 12)
-				{
-					date1 = new DateTime(date1.Year + 1, 1, 1);
-				}
-				else
-				{
-					date1 = new DateTime(date1.Year, date1.Month + 1, 1);
-				}
-
-			}
+			DateTime date1 = new DateTime(dateFrom.Year, dateFrom.Month, 1);
 			DateTime date2 = date1.AddMonths(1);
+			date1 = date2.AddMonths(-1);
 
 			int iterator = 0;
 
@@ -39,15 +27,17 @@ namespace StockExchangeMVC.Infrastructure
 
 				MonthTick month = new MonthTick();
 
-				month.DayTicksTable.Body = data.Where(x => x.Date > date1 && x.Date < date2).ToList();
-				month.ItemName = name;
-				month.Date = date1;
-				month.FinishDate = date2;
-				iterator++;
-				month.ID = iterator;
+				month.DayTicksTable.Body = data.Where(x => x.Date >= date1 && x.Date < date2).ToList();
+				if (month.DayTicksTable.Body.Count != 0)
+				{
+					month.ItemName = name;
+					month.Date = date1;
+					month.FinishDate = date2;
+					iterator++;
+					month.ID = iterator;
 
-				monthTicks.Add(month);
-
+					monthTicks.Add(month);
+				}
 				if (date1.Year == dateTo.Year && date1.Month == dateTo.Month) break;
 
 				date1 = date1.AddMonths(1);
@@ -57,10 +47,13 @@ namespace StockExchangeMVC.Infrastructure
 			return monthTicks;
 		}
 
-		public static List<SignalMonth> getSignalMonth(IRepository repository)
+		public static List<SignalMonth> getSignalMonth(IRepository repository, int date)
 		{
-			DateTime dateFrom = DateTime.Today.AddMonths(-4);
-			DateTime dateTo = DateTime.Today;
+			DateTime dateTo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);// DateTime.Today.AddMonths(-1*date);
+
+			dateTo = dateTo.AddMonths(-1 * date);
+			DateTime dateFrom = dateTo.AddMonths(-3);
+
 
 			List<SignalMonth> signals = new List<SignalMonth>();
 			var WSESingleton = WSEIndexItemSingleton.Instance();
@@ -82,12 +75,18 @@ namespace StockExchangeMVC.Infrastructure
 							signalMonth.NameItem = item;
 							signalMonth.DayTicksTable = months[3].DayTicksTable.Body;
 							signalMonth.monthTick = months[3];
+							signalMonth.monthTickBefore = months[2];
+
 
 							iterator++;
 							signalMonth.ID = iterator;
-							signalMonth.AvarageRange = (months[0].Range + months[1].Range + months[2].Range) / 3;
+							//signalMonth.AvarageRange = Math.Max(Math.Max(months[0].Range, months[1].Range), months[2].Range);
+							signalMonth.AvarageRange =  months[2].Range;
+
+
 							decimal min = 0;
 							decimal max = 0;
+							bool save = false;
 
 							for (int i = 0; i < months[3].DayTicksTable.Body.Count; i++)
 							{
@@ -108,18 +107,28 @@ namespace StockExchangeMVC.Infrastructure
 										min = months[3].DayTicksTable.Body[i].Low;
 									}
 								}
-								if (i < 5) signalMonth.DayPercentRange.Add($"{Math.Round(100 * (max - min) / signalMonth.AvarageRange, 1)}% ({(i + 1)})");
+
+
+
+								if (i < 5)
+								{
+									signalMonth.DayPercentRange.Add($"{Math.Round(100 * (max - min) / signalMonth.AvarageRange, 1)}% ({(i + 1)})");
+									//if (Math.Round(100 * (max - min) / signalMonth.AvarageRange, 1) > 100) save = true;
+									if (max  > signalMonth.monthTickBefore.High || min < signalMonth.monthTickBefore.Low) save = true;
+
+								}
 								else signalMonth.DayPercentRange.Add($"-{i + 1}-");
 							}
 
-							SignalMonth.CurrentList = signals;
-
-							signals.Add(signalMonth);
+							if(save) signals.Add(signalMonth);
 						}
 					}
+
 				}
 				catch { }
 			}
+
+			SignalMonth.CurrentList = signals;
 
 			return signals;
 		}

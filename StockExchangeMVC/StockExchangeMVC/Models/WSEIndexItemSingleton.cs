@@ -36,7 +36,50 @@ namespace StockExchangeMVC.Models
 			["tpe"] = "Tauron",
 		};
 
-		private Dictionary<string, string> mWig40 = new Dictionary<string, string>();
+		private Dictionary<string, string> mWig40 = new Dictionary<string, string>
+		{
+			["11b"] = "11 bit studios",
+			["amc"] = "Amica",
+			["eat"] = "AmRest Holdings SE",
+			["acp"] = "Asseco Poland",
+			["bft"] = "Benefit Systems",
+			["lwb"] = "Lubelski Węgiel Bogdanka",
+			["brs"] = "BORYSZEW",
+			["bdx"] = "BUDIMEX",
+			["cie"] = "CIECH",
+			["cig"] = "CIGAMES",
+			["cmr"] = "COMARCH",
+			["dnp"] = "DINOPL",
+			["ena"] = "ENEA",
+			["fmf"] = "FAMUR",
+			["fte"] = "FORTE",
+			["gnb"] = "GETINOBLE",
+			["gpw"] = "GPW",
+			["att"] = "GRUPAAZOTY",
+			["gtc"] = "GTC",
+			["bhw"] = "HANDLOWY",
+			["ing"] = "INGBSK",
+			["car"] = "INTERCARS",
+			["ker"] = "KERNEL",
+			["kty"] = "KETY",
+			["kru"] = "KRUK",
+			["lcc"] = "LCCORP",
+			["lvc"] = "LIVECHAT",
+			["mab"] = "MABION",
+			["mil"] = "MILLENNIUM",
+			["net"] = "NETIA",
+			["orb"] = "ORBIS",
+			["pfl"] = "PFLEIDER",
+			["pkp"] = "PKPCARGO",
+			["ply"] = "PLAY",
+			["plw"] = "PLAYWAY",
+			["pxm"] = "POLIMEXMS",
+			["snk"] = "SANOK",
+			["wwl"] = "WAWEL",
+			["wpl"] = "WIRTUALNA"
+		};
+
+		//private Dictionary<string, string> mWig40 = new Dictionary<string, string>();
 
 		private Dictionary<string, string> sWig80 = new Dictionary<string, string>();
 
@@ -85,7 +128,7 @@ namespace StockExchangeMVC.Models
 
 		public string[] GetIndexes()
 		{
-			return new string[] { "wig20", "mwig80", "swig80"};
+			return new string[] { "wig20", "mwig40", "swig80"};
 		}
 
 		protected WSEIndexItemSingleton() { }

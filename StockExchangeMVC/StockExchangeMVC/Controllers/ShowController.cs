@@ -62,10 +62,10 @@ namespace StockExchangeMVC.Controllers
 
 						if (existFinish == null)
 						{
-							var lastTick = _repository.dayTickWSE.Where(x => x.ItemName == item).OrderByDescending(x => x.Date).First();
+							var lastTick = _repository.dayTickWSE.Where(x => x.ItemName == item).OrderByDescending(x => x.Date).ToList();
 
-							if (lastTick == null) table.startDate = DateTime.Today.AddYears(-1);
-							else table.startDate = lastTick.Date.AddDays(1);
+							if (lastTick.Count == 0) table.startDate = DateTime.Today.AddYears(-1);
+							else table.startDate = lastTick[0].Date.AddDays(1);
 
 							table.Index = index;
 							table.Name = item;
@@ -78,7 +78,7 @@ namespace StockExchangeMVC.Controllers
 				{ }
 			}
 
-			if(currentItem == "Signal") return RedirectToAction("SignalMonth", "Signal");
+			if(currentItem == "Signal") return RedirectToAction("SignalsMonth", "Signal");
 
 			return RedirectToAction("ShowMonths", "Show", new { name = currentItem });
 		}

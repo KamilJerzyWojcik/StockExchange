@@ -22,6 +22,8 @@ namespace StockExchangeMVC.Models.ViewModels
 		public List<string> DayPercentRange { get; set; }
 		public List<DayTickWSE> DayTicksTable { get; set; }
 		public MonthTick monthTick { get; set; }
+		public MonthTick monthTickBefore { get; set; }
+
 
 		public SignalMonth()
 		{

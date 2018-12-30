@@ -18,12 +18,16 @@ namespace StockExchangeMVC.Controllers
 			_repository = repository;
 		}
 
-		public IActionResult SignalsMonth(DateTime time, bool all, bool json = false)
+		public IActionResult SignalsMonth(int date, bool json = false)
 		{
+			ViewBag.Next = date - 1;
+			ViewBag.Prev = date + 1;
+
+			ViewBag.Current = date;
 
 			if (json) return Json(SignalMonth.CurrentList);
 
-			return View(ChangeData.getSignalMonth(_repository));
+			return View(ChangeData.getSignalMonth(_repository, date));
 		}
 	}
 }

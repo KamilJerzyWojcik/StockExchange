@@ -40,5 +40,10 @@ namespace StockExchangeMVC.Controllers
 			return View(table);
 		}
 
+		public IActionResult Opis()
+		{
+			return View();
+		}
+
 	}
 }
