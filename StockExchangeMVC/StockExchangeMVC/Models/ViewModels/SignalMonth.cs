@@ -8,6 +8,7 @@ namespace StockExchangeMVC.Models.ViewModels
 	public class SignalMonth
 	{
 		public int ID { get; set; }
+		public static List<SignalMonth> CurrentList { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime FinishDate
 		{
@@ -21,7 +22,6 @@ namespace StockExchangeMVC.Models.ViewModels
 		public List<string> DayPercentRange { get; set; }
 		public List<DayTickWSE> DayTicksTable { get; set; }
 		public MonthTick monthTick { get; set; }
-
 
 		public SignalMonth()
 		{

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StockExchangeMVC.Infrastructure;
 using StockExchangeMVC.Models;
+using StockExchangeMVC.Models.ViewModels;
 
 namespace StockExchangeMVC.Controllers
 {
@@ -17,10 +18,10 @@ namespace StockExchangeMVC.Controllers
 			_repository = repository;
 		}
 
-		public IActionResult SignalMonth(DateTime time, bool all, bool json = false)
+		public IActionResult SignalsMonth(DateTime time, bool all, bool json = false)
 		{
 
-			if (json) return Json(ChangeData.getSignalMonth(_repository));
+			if (json) return Json(SignalMonth.CurrentList);
 
 			return View(ChangeData.getSignalMonth(_repository));
 		}

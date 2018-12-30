@@ -111,6 +111,9 @@ namespace StockExchangeMVC.Infrastructure
 								if (i < 5) signalMonth.DayPercentRange.Add($"{Math.Round(100 * (max - min) / signalMonth.AvarageRange, 1)}% ({(i + 1)})");
 								else signalMonth.DayPercentRange.Add($"-{i + 1}-");
 							}
+
+							SignalMonth.CurrentList = signals;
+
 							signals.Add(signalMonth);
 						}
 					}

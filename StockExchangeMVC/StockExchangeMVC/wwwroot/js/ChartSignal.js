@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     $.ajax({
-        url: "/Signal/SignalMonth",
+        url: "/Signal/SignalsMonth",
         data: { json: true },
         type: "GET",
         dataType: "json"

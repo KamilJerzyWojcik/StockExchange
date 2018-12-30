@@ -45,7 +45,7 @@ namespace StockExchangeMVC
 			app.UseAuthentication();
 			app.UseMvc(routes =>
 			{
-				routes.MapRoute("default", "{controller=Signal}/{action=SignalMonth}");
+				routes.MapRoute("default", "{controller=Signal}/{action=SignalsMonth}");
 			});
 		}
 	}
